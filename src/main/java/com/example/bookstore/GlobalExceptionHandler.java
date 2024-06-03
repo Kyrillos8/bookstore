@@ -27,6 +27,7 @@ public class GlobalExceptionHandler {
 
 
 class ErrorDetails{
+
     private Date timestamps;
     private String message;
     private String details;
