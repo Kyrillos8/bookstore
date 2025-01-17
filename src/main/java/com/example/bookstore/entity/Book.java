@@ -19,7 +19,7 @@ public class Book {
     private Long id;
     @Column(name = "title", unique = true, nullable = false)
     private String title;
-    @Column(name = "author", nullable = false)
+    @Column(name = "author")
     private String author;
     @Column(name = "price", nullable = false)
     private Double price;

@@ -14,9 +14,6 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    //    private Sort.Order sortbyid() {
-//        return Sort.Order.asc("id");
-//    }
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
@@ -31,5 +28,9 @@ public class BookService {
 
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    public Boolean bookExistsByTitle(String title) {
+        return bookRepository.findByTitle(title).isPresent();
     }
 }
