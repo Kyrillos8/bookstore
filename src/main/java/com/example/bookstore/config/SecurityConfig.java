@@ -22,26 +22,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
-
     private final JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
+                .headers(headers -> headers.frameOptions(frame -> frame.disable())) // Allow H2 frames
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Public access for auth routes
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/books/**").permitAll()      // Public access for books routes
+                        .requestMatchers("/api/mybooks").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll() // Allow H2 console access
                         .anyRequest().authenticated()
-                ).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-////                .httpBasic(withDefaults())
-////                .logout(logout -> logout
-////                        .logoutUrl("/api/auth/logout")
-////                        .invalidateHttpSession(true)
-////                        .deleteCookies("JSESSIONID")
-////                        .logoutSuccessHandler((request, response, authentication) -> {
-////                            response.setStatus(HttpServletResponse.SC_OK);
-////                        })
-////                )
-        ;
+                )
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -60,14 +54,13 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:8080"); // Adjust the allowed origin as needed
-            }
-        };
-    }
-
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/**").allowedOrigins("http://localhost:8080"); // Adjust the allowed origin as needed
+//            }
+//        };
+//    }
 }

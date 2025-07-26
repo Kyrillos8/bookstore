@@ -14,6 +14,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Book {
 
+//    @ManyToOne
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User user;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

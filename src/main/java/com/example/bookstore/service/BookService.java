@@ -33,4 +33,8 @@ public class BookService {
     public Boolean bookExistsByTitle(String title) {
         return bookRepository.findByTitle(title).isPresent();
     }
+
+    public List<Book> getMyBooks(String author) {
+        return bookRepository.findByAuthor(author);
+    }
 }
